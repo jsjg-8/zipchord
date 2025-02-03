@@ -1,0 +1,27 @@
+# ZIPCHORD LIBRARY v1
+# This is a comment that will be ignored
+name: English Core
+language: en-US
+version: 1.0.0
+
+# Prefix definitions
+[prefixes]
+r' => re  # This is a prefix comment
+d' => de
+
+# Suffix definitions
+[suffixes]
+;g => ing  # Common suffix
+;t => tion
+
+# Main chord mappings
+[chords]
+th => the
+a => a  # Single key chord
+w+i => with  # Multi-key chord
+
+# Special cases
+[exceptions]
+e.g. => e.g.  # Latin abbreviation
+i.e. => i.e.
+

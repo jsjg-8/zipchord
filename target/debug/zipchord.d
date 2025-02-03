@@ -1,0 +1,1 @@
+/home/jsjg/Documents/Projects/zipchord/target/debug/zipchord: /home/jsjg/Documents/Projects/zipchord/src/chordstream.rs /home/jsjg/Documents/Projects/zipchord/src/config.rs /home/jsjg/Documents/Projects/zipchord/src/lib.rs /home/jsjg/Documents/Projects/zipchord/src/main.rs /home/jsjg/Documents/Projects/zipchord/src/text_injector.rs
