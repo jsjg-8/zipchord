@@ -1,10 +1,10 @@
 # PKGBUILD
 pkgname=zipchord
-pkgver=1.0.0
+pkgver=0.1.0
 pkgrel=1
 pkgdesc="Keyboard chording system for Wayland"
 arch=('x86_64')
-url="https://your-repository-url"
+url="https://github.com"
 license=('MIT')
 depends=('ydotool' 'evtest')  # Include any runtime dependencies
 makedepends=('cargo' 'systemd')  # Include build dependencies like systemd

@@ -1,0 +1,11 @@
+.vscode
+target/
+*.lock
+*.lock.json
+*.lock.yaml
+*.lock.yml
+*.lock.toml
+*.lock.json
+*.lock.yaml
+*.lock.yml
+dictionaries/

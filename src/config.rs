@@ -1,6 +1,6 @@
 // src/config.rs
 use anyhow::{Context, Result};
-use dirs::{config_dir, home_dir};
+use dirs::home_dir;
 use std::{
     env, path::{Path, PathBuf}, time::Duration
 };
@@ -69,7 +69,7 @@ impl AppConfig {
     }
 
     fn config_file_path() -> Option<PathBuf> {
-        config_dir().map(|path| path.join(APP_NAME).join("config.ini"))
+        home_dir().map(|path| path.join(APP_NAME).join("config.ini"))
     }
 
     fn defaults() -> Result<Self> {
