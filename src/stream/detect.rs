@@ -85,7 +85,7 @@ impl ChordStream {
 
                 // Create new key timing
                 let timing = KeyTiming {
-                    key,
+                   
                     press_time: now,
                     release_time: None,
                 };

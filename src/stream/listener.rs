@@ -40,7 +40,7 @@ impl KeyboardListener {
 
     fn is_keyboard(device: &Device) -> bool {
         device.supported_events().contains(evdev::EventType::KEY)
-            && device.supported_keys().map_or(false, |keys| {
+            && device.supported_keys().is_some_and(|keys| {
                 keys.contains(KeyCode::KEY_A)
                     && keys.contains(KeyCode::KEY_Z)
                     && keys.contains(KeyCode::KEY_SPACE)

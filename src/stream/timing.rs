@@ -1,9 +1,7 @@
-use evdev::KeyCode;
 use std::time::{Duration, Instant};
 
 #[derive(Debug, Clone)]
 pub struct KeyTiming {
-    pub key: KeyCode,
     pub press_time: Instant,
     pub release_time: Option<Instant>,
 }
