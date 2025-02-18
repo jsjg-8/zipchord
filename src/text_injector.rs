@@ -34,14 +34,19 @@ impl TextInjector {
         if count == 0 {
             return Ok(());
         }
-
+        let mut key_args = Vec::with_capacity(count * 2);
         for _ in 0..count {
-            Command::new("ydotool")
-                .env("YDOTOOL_SOCKET", &self.socket_path)
-                .args(["key", "14:1", "14:0"])
-                .status()
-                .context("Failed to inject backspace key")?;
+            key_args.push("14:1");
+            key_args.push("14:0");
         }
+
+        Command::new("ydotool")
+            .env("YDOTOOL_SOCKET", &self.socket_path)
+            .arg("key")
+            .args(&key_args)
+            .status()
+            .context("Failed to inject backspace keys")?;
+
         Ok(())
     }
 
