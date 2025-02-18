@@ -1,27 +1,196 @@
-# ZIPCHORD LIBRARY v1
+ZIPCHORD LIBRARY v1
 # This is a comment that will be ignored
+
 name: English Core
 language: en-US
 version: 1.0.0
 
 # Prefix definitions
+
 [prefixes]
-r' => re  # This is a prefix comment
-d' => de
+KEY_D+KEY_S => dis~
 
 # Suffix definitions
-[suffixes]
-;g => ing  # Common suffix
-;t => tion
+
+
+# Infix definitions
+
+[infixes]
+KEY_PERIOD+KEY_C => ~.com~
+KEY_PERIOD+KEY_O => ~.org~
 
 # Main chord mappings
+
 [chords]
-th => the
-a => a  # Single key chord
-w+i => with  # Multi-key chord
+# Articles
+KEY_T+KEY_H => the
+
+KEY_A+KEY_N => an
+
+# Conjunctions
+KEY_A+KEY_N => and
+KEY_A+KEY_S => as
+KEY_O+KEY_R => or
+KEY_B+KEY_U => but
+KEY_I+KEY_F => if
+KEY_S+KEY_O => so
+KEY_D+KEY_N => then
+KEY_B+KEY_C => because
+
+# Prepositions
+KEY_T+KEY_O => to
+KEY_O+KEY_F => of
+KEY_I+KEY_N => in
+
+KEY_O+KEY_N => on
+KEY_A+KEY_T => at
+KEY_F+KEY_M => from
+KEY_B+KEY_Y => by
+KEY_A+KEY_B => about
+KEY_U+KEY_P => up
+KEY_I+KEY_O => into
+KEY_O+KEY_V => over
+KEY_A+KEY_F => after
+KEY_W+KEY_O => without
+
+# Pronouns
+KEY_M+KEY_E => me
+KEY_O+KEY_U => you
+KEY_U+KEY_R => your
+KEY_H+KEY_E => he
+KEY_H+KEY_M => him
+KEY_H+KEY_I+KEY_S => his
+KEY_S+KEY_H => she
+KEY_H+KEY_R => her
+KEY_I+KEY_T => it
+KEY_T+KEY_S => its
+KEY_W+KEY_E => we
+KEY_U+KEY_S => us
+KEY_O+KEY_U+KEY_R => our
+KEY_D+KEY_Y => they
+KEY_D+KEY_R => their
+KEY_D+KEY_M => them
+
+# Interrogatives
+KEY_W+KEY_C => which
+KEY_W+KEY_N => when
+KEY_W+KEY_T => what
+KEY_W+KEY_R => where
+KEY_H+KEY_O => who
+KEY_H+KEY_W => how
+KEY_W+KEY_Y => why
+
+# Verbs
+KEY_I+KEY_S => is
+KEY_A+KEY_R => are
+KEY_W+KEY_A => was
+KEY_E+KEY_R => were
+KEY_B+KEY_E => be
+KEY_H+KEY_V => have
+KEY_H+KEY_Z => has
+KEY_H+KEY_D => had
+KEY_N+KEY_T => not
+KEY_C+KEY_N => can
+KEY_D+KEY_O => do
+KEY_W+KEY_L => will
+KEY_C+KEY_D => could
+KEY_W+KEY_D => would
+KEY_S+KEY_D => should
+KEY_L+KEY_I => like
+KEY_B+KEY_N => been
+KEY_G+KEY_E => get
+KEY_M+KEY_A+KEY_Y => may
+KEY_M+KEY_A+KEY_D => made
+KEY_M+KEY_K => make
+KEY_A+KEY_I => said
+KEY_W+KEY_K => work
+KEY_U+KEY_Z => use
+KEY_S+KEY_Y => say
+KEY_K+KEY_N => know
+KEY_T+KEY_K => take
+KEY_S+KEY_E => see
+KEY_L+KEY_K => look
+KEY_C+KEY_M => come
+KEY_T+KEY_H+KEY_K => think
+KEY_W+KEY_N+KEY_T => want
+KEY_G+KEY_I => give
+KEY_C+KEY_T => cannot
+KEY_D+KEY_E => does
+KEY_D+KEY_I => did
+KEY_S+KEY_E+KEY_M => seem
+KEY_C+KEY_L => call
+KEY_T+KEY_H+KEY_A => thank
+
+# Other
+KEY_I+KEY_M => I'm
+KEY_D+KEY_T => that
+KEY_D+KEY_I+KEY_S => this
+KEY_D+KEY_E+KEY_S => these
+KEY_A+KEY_L => all
+KEY_M+KEY_O => more
+KEY_T+KEY_H+KEY_E => there
+KEY_O+KEY_U+KEY_T => out
+KEY_A+KEY_O => also
+KEY_T+KEY_M => time
+KEY_S+KEY_M => some
+KEY_J+KEY_S => just
+KEY_N+KEY_E => new
+KEY_O+KEY_D+KEY_R => other
+KEY_P+KEY_L => people
+KEY_D+KEY_A+KEY_N => than
+KEY_O+KEY_Y => only
+KEY_M+KEY_S+KEY_T => most
+KEY_A+KEY_Y => any
+KEY_M+KEY_A => many
+KEY_E+KEY_L => well
+KEY_F+KEY_S => first
+KEY_V+KEY_Y => very
+KEY_N+KEY_O+KEY_W => now
+KEY_E+KEY_V => even
+KEY_G+KEY_O => good
+KEY_W+KEY_A+KEY_Y => way
+KEY_Y+KEY_R => year
+KEY_B+KEY_K => back
+KEY_D+KEY_A => day
+KEY_1+KEY_SPACE+KEY_D+KEY_A => Monday
+KEY_2+KEY_SPACE+KEY_D+KEY_A => Tuesday
+KEY_3+KEY_SPACE+KEY_D+KEY_A => Wednesday
+KEY_4+KEY_SPACE+KEY_D+KEY_A => Thursday
+KEY_5+KEY_SPACE+KEY_D+KEY_A => Friday
+KEY_6+KEY_SPACE+KEY_D+KEY_A => Saturday
+KEY_7+KEY_SPACE+KEY_D+KEY_A => Sunday
+KEY_Q+KEY_N => question
+KEY_S+KEY_C => second
+KEY_D+KEY_G => thing
+KEY_C+KEY_N+KEY_APOSTROPHE => can't
+KEY_D+KEY_N+KEY_APOSTROPHE => don't
+KEY_D+KEY_I+KEY_F => different
+KEY_D+KEY_G+KEY_H => though
+KEY_T+KEY_R+KEY_U => through
+KEY_S+KEY_R => sorry
+KEY_M+KEY_V => move
+KEY_D+KEY_I+KEY_R => direction
+KEY_N+KEY_X => next 
+KEY_S+KEY_A+KEY_M => same
+KEY_T+KEY_P => top
+KEY_M+KEY_N => month
+KEY_1+KEY_SPACE+KEY_M+KEY_N => January
+KEY_2+KEY_SPACE+KEY_M+KEY_N => February
+KEY_3+KEY_SPACE+KEY_M+KEY_N => March
+KEY_4+KEY_SPACE+KEY_M+KEY_N => April
+KEY_5+KEY_SPACE+KEY_M+KEY_N => May
+KEY_6+KEY_SPACE+KEY_M+KEY_N => June
+KEY_7+KEY_SPACE+KEY_M+KEY_N => July
+KEY_8+KEY_SPACE+KEY_M+KEY_N => August
+KEY_9+KEY_SPACE+KEY_M+KEY_N => September
+KEY_1+KEY_0+KEY_SPACE+KEY_M+KEY_N => October
+KEY_1+KEY_1+KEY_SPACE+KEY_M+KEY_N => November
+KEY_1+KEY_2+KEY_SPACE+KEY_M+KEY_N => December
 
 # Special cases
-[exceptions]
-e.g. => e.g.  # Latin abbreviation
-i.e. => i.e.
 
+[exceptions]
+KEY_PERIOD => ~. ~ # Space+. forces a full stop without a smart spaces
+KEY_COMMA => ~, ~ # Space+. forces a full stop without a smart spaces
+e . g . => e.g. # Latin abbreviation
+i . e . => i.e.
