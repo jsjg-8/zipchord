@@ -1,12 +1,12 @@
 use anyhow::Result;
 use evdev::KeyCode;
-use std::time::{Duration, Instant};
 use log;
+use std::time::{Duration, Instant};
 
 use super::listener::KeyboardListener;
 use super::timing::{KeyTiming, TimingAnalyzer};
 
-const MAX_CHORD_SIZE: usize = 8;  // Maximum reasonable number of keys in a chord
+const MAX_CHORD_SIZE: usize = 8; // Maximum reasonable number of keys in a chord
 
 pub struct ChordConfig {
     pub base_chord_window: Duration,
@@ -75,7 +75,7 @@ impl ChordStream {
         let chord_callback = move |key: KeyCode, is_press: bool| {
             let event_start = Instant::now();
             let now = Instant::now();
-            
+
             if is_press {
                 // Update timing metrics if we have a previous key press
                 if let Some(last_key) = active_keys.last() {
@@ -85,7 +85,6 @@ impl ChordStream {
 
                 // Create new key timing
                 let timing = KeyTiming {
-                   
                     press_time: now,
                     release_time: None,
                 };
@@ -103,14 +102,11 @@ impl ChordStream {
                 if active_keys.len() < MAX_CHORD_SIZE {
                     // Check if key is already in active_keys (shouldn't happen, but let's be safe)
                     if !active_keys.iter().any(|k| k.code == key) {
-                        active_keys.push(ActiveKey {
-                            code: key,
-                            timing,
-                        });
+                        active_keys.push(ActiveKey { code: key, timing });
                     }
                 }
                 *last_activity = now;
-                
+
                 let event_duration = event_start.elapsed();
                 log::debug!("Key press processing took: {:?}", event_duration);
             } else {
@@ -118,52 +114,55 @@ impl ChordStream {
                 if let Some(pos) = active_keys.iter().position(|k| k.code == key) {
                     active_keys[pos].timing.release_time = Some(now);
 
-                    // Process single key releases immediately
-                    if active_keys.len() == 1 {
-                        chord_buffer.clear();
-                        chord_buffer.push(key);
-                        callback(chord_buffer.clone());
-                        let event_duration = event_start.elapsed();
-                        log::debug!("Single key processing took: {:?}", event_duration);
-                    }
-                    // Process as potential chord if we have multiple keys
-                    else if active_keys.len() > 1 {
-                        let chord_detection_start = Instant::now();
-
-                        // Prepare timing buffer
-                        timing_buffer.clear();
-                        timing_buffer.extend(active_keys.iter().map(|k| k.timing.clone()));
-                        
-                        // If this forms a valid chord, trigger callback
-                        if timing_analyzer.is_chord(timing_buffer) {
-                            let chord_start = Instant::now();
+                    match active_keys.len().cmp(&1) {
+                        std::cmp::Ordering::Less => {}
+                        // Process single key releases immediately
+                        std::cmp::Ordering::Equal => {
                             chord_buffer.clear();
-                            chord_buffer.extend(active_keys.iter().map(|k| k.code));
-                            
-                            log::debug!("Detected chord: {:?}", chord_buffer);
-                            if !chord_buffer.is_empty() {
-                                callback(chord_buffer.clone());
-                                let chord_duration = chord_start.elapsed();
+                            chord_buffer.push(key);
+                            callback(chord_buffer.clone());
+                            let event_duration = event_start.elapsed();
+                            log::debug!("Single key processing took: {:?}", event_duration);
+                        }
+                        // Process as potential chord if we have multiple keys
+                        std::cmp::Ordering::Greater => {
+                            let chord_detection_start = Instant::now();
+
+                            // Prepare timing buffer
+                            timing_buffer.clear();
+                            timing_buffer.extend(active_keys.iter().map(|k| k.timing.clone()));
+
+                            // If this forms a valid chord, trigger callback
+                            if timing_analyzer.is_chord(timing_buffer) {
+                                let chord_start = Instant::now();
+                                chord_buffer.clear();
+                                chord_buffer.extend(active_keys.iter().map(|k| k.code));
+
+                                log::debug!("Detected chord: {:?}", chord_buffer);
+                                if !chord_buffer.is_empty() {
+                                    callback(chord_buffer.clone());
+                                    let chord_duration = chord_start.elapsed();
+                                    let detection_duration = chord_detection_start.elapsed();
+                                    let total_duration = event_start.elapsed();
+                                    log::info!("Timing breakdown:");
+                                    log::info!("  Chord detection: {:?}", detection_duration);
+                                    log::info!("  Chord injection: {:?}", chord_duration);
+                                    log::info!("  Total processing: {:?}", total_duration);
+                                }
+                            } else {
+                                log::debug!("Detected roll-over, ignoring sequence");
                                 let detection_duration = chord_detection_start.elapsed();
-                                let total_duration = event_start.elapsed();
-                                log::info!("Timing breakdown:");
-                                log::info!("  Chord detection: {:?}", detection_duration);
-                                log::info!("  Chord injection: {:?}", chord_duration);
-                                log::info!("  Total processing: {:?}", total_duration);
+                                log::debug!("Roll-over detection took: {:?}", detection_duration);
                             }
-                        } else {
-                            log::debug!("Detected roll-over, ignoring sequence");
-                            let detection_duration = chord_detection_start.elapsed();
-                            log::debug!("Roll-over detection took: {:?}", detection_duration);
                         }
                     }
-                    
+
                     // Remove the released key
                     active_keys.remove(pos);
                 }
-                
+
                 *last_activity = now;
-                
+
                 let event_duration = event_start.elapsed();
                 log::debug!("Key release processing took: {:?}", event_duration);
             }
@@ -172,4 +171,3 @@ impl ChordStream {
         self.listener.listen(chord_callback)
     }
 }
-

@@ -13,7 +13,7 @@ pub struct TimingAnalyzer {
     roll_threshold: f32,
     typing_speed_factor: f32,
     min_overlap_ratio: f32,
-    base_window_secs: f32,  // Cached conversion
+    base_window_secs: f32, // Cached conversion
 
     // State
     recent_press_intervals: Vec<Duration>,
@@ -85,29 +85,33 @@ impl TimingAnalyzer {
 
             // Calculate overlap ratio
             let overlap_ratio = overlap_secs / self.base_window_secs;
-            
+
             if overlap_ratio < self.min_overlap_ratio {
                 total_score += 1.0;
                 count += 1;
                 continue;
             }
-            
+
             // Calculate press interval ratio
             let interval_ratio = press_interval_secs / self.base_window_secs;
-            
+
             // Combine factors into a score
             total_score += 1.0 - (overlap_ratio * (1.0 - interval_ratio));
             count += 1;
         }
 
-        let base_score = if count > 0 { total_score / count as f32 } else { 0.0 };
+        let base_score = if count > 0 {
+            total_score / count as f32
+        } else {
+            0.0
+        };
         self.adjust_for_typing_speed(base_score)
     }
 
     /// Update typing speed metrics with a new interval
     pub fn update_typing_speed(&mut self, interval: Duration) {
         const MAX_SAMPLES: usize = 10;
-        
+
         self.recent_press_intervals.push(interval);
         if self.recent_press_intervals.len() > MAX_SAMPLES {
             self.recent_press_intervals.remove(0);
@@ -115,17 +119,17 @@ impl TimingAnalyzer {
 
         let now = Instant::now();
         if now.duration_since(self.last_speed_update) >= self.speed_cache_duration {
-        // Update average typing speed
-        if !self.recent_press_intervals.is_empty() {
-            let sum: Duration = self.recent_press_intervals.iter().sum();
-            self.average_typing_speed = sum / self.recent_press_intervals.len() as u32;
+            // Update average typing speed
+            if !self.recent_press_intervals.is_empty() {
+                let sum: Duration = self.recent_press_intervals.iter().sum();
+                self.average_typing_speed = sum / self.recent_press_intervals.len() as u32;
             }
-            
+
             // Update cached chord window
             let speed_ratio = self.average_typing_speed.as_secs_f32() / self.base_window_secs;
             let adjustment = 1.0 + (speed_ratio - 1.0) * self.typing_speed_factor;
-            self.cached_chord_window = self.base_chord_window.mul_f32(adjustment.max(0.5).min(2.0));
-            
+            self.cached_chord_window = self.base_chord_window.mul_f32(adjustment.clamp(0.5, 2.0));
+
             self.last_speed_update = now;
         }
     }
@@ -144,6 +148,6 @@ impl TimingAnalyzer {
     fn adjust_for_typing_speed(&self, score: f32) -> f32 {
         let typing_speed_ratio = self.average_typing_speed.as_secs_f32() / self.base_window_secs;
         let adjustment = 1.0 - (typing_speed_ratio - 1.0) * self.typing_speed_factor;
-        (score * adjustment).max(0.0).min(1.0)
+        (score * adjustment).clamp(0.0, 1.0)
     }
-} 
+}

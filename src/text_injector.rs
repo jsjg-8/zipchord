@@ -1,17 +1,17 @@
-use std::process::Command;
 use anyhow::{Context, Result};
+use std::process::Command;
 pub struct TextInjector {
     socket_path: std::path::PathBuf,
 }
 
 impl TextInjector {
     pub fn new() -> Result<Self> {
-       let socket_path = std::path::PathBuf::from("/tmp/.ydotool_socket");
-        
+        let socket_path = std::path::PathBuf::from("/tmp/.ydotool_socket");
+
         if !socket_path.exists() {
             Self::ensure_ydotoold_running()?;
         }
-        
+
         Ok(Self { socket_path })
     }
 
@@ -22,14 +22,13 @@ impl TextInjector {
             .context("Failed to check ydotoold")?;
 
         if !status.success() {
-            Command::new("ydotoold")
-                .spawn()
-                .context("Failed to start ydotoold. Make sure it's installed: 'sudo pacman -S ydotool'")?;
+            Command::new("ydotoold").spawn().context(
+                "Failed to start ydotoold. Make sure it's installed: 'sudo pacman -S ydotool'",
+            )?;
             std::thread::sleep(std::time::Duration::from_secs(1));
         }
         Ok(())
     }
-
 
     pub fn inject_backspaces(&self, count: usize) -> Result<()> {
         if count == 0 {
